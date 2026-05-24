@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% block content %}
+
+<!-- HOME -->
+<section class="section-hero overlay inner-page bg-image" style="background-image: url(/static/images/applicantdetail.jpg);" id="home-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7">
+        <h1 class="text-white font-weight-bold">{{ applicant.get_full_name }}</h1>
+        <div class="custom-breadcrumbs">
+          <a href="{% url 'jobapp:home' %}">Home</a> <span class="mx-2 slash">/</span>
+          <span class="text-white"><strong>Applicant</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="site-section" id="next-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-sm border-0 mb-5">
+          <div class="card-body p-5">
+            <div class="text-center mb-4">
+              <span class="icon-user-circle display-1 text-primary"></span>
+              <h2 class="h3 mb-3">{{ applicant.get_full_name }}</h2>
+              {% if applicant.cv %}
+              <div class="mb-3">
+                <a href="{{ applicant.cv.url }}" target="_blank" class="btn btn-success btn-sm">
+                  <i class="icon-download mr-1"></i> Download CV
+                </a>
+                <small class="text-muted ml-2">{{ applicant.cv.name|cut:"cv_uploads/" }}</small>
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="detail-item mb-4">
+                  <h5 class="text-uppercase text-muted small mb-1">Personal Information</h5>
+                  <ul class="list-unstyled">
+                    <li class="mb-2"><strong>Email:</strong> {{ applicant.email }}</li>
+                    <li class="mb-2"><strong>Phone:</strong> {{ applicant.MobileNumber }}</li>
+                    <li class="mb-2"><strong>Gender:</strong> 
+                      {% if applicant.gender == 'M' %}Male{% else %}Female{% endif %}
+                    </li>
+                    <li class="mb-2"><strong>Location:</strong> {{ applicant.location }}</li>
+                  </ul>
+                </div>
+
+                <div class="detail-item mb-4">
+                  <h5 class="text-uppercase text-muted small mb-1">Skills</h5>
+                  <div class="skills-tags">
+                    {% for skill in applicant.skills.split %}
+                      <span class="badge badge-pill badge-secondary">{{ skill }}</span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="detail-item mb-4">
+                  <h5 class="text-uppercase text-muted small mb-1">Education</h5>
+                  <ul class="list-unstyled">
+                    <li class="mb-2"><strong>Primary School:</strong> {{ applicant.Primary_school }}</li>
+                    <li class="mb-2"><strong>High School:</strong> {{ applicant.High_school }}</li>
+                    <li class="mb-2"><strong>Under Graduate:</strong> {{ applicant.Under_graduate }}</li>
+                    <li class="mb-2"><strong>Post Graduate:</strong> {{ applicant.Post_graduate }}</li>
+                  </ul>
+                </div>
+
+                <div class="detail-item">
+                  <h5 class="text-uppercase text-muted small mb-1">Professional</h5>
+                  <ul class="list-unstyled">
+                    <li class="mb-2"><strong>Experience:</strong> {{ applicant.Experience }}</li>
+                    <li class="mb-2"><strong>Academic Projects:</strong> {{ applicant.AcademicProjects }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .detail-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  .skills-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .detail-item h5 {
+    letter-spacing: 1px;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .detail-item ul li {
+    padding: 5px 0;
+    border-bottom: 1px dashed #eee;
+  }
+  
+  .detail-item ul li:last-child {
+    border-bottom: none;
+  }
+  
+  .icon-user-circle {
+    font-size: 5rem;
+  }
+</style>
+
+{% endblock %}

@@ -1,0 +1,109 @@
+
+  <div id="overlayer"></div>
+<div class="loader">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<div class="site-wrap">
+  <!-- Mobile Menu -->
+  <div class="site-mobile-menu site-navbar-target">
+    <div class="site-mobile-menu-header">
+      <div class="site-mobile-menu-close mt-3">
+        <span class="icon-close2 js-menu-toggle"></span>
+      </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="site-navbar mt-3">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        
+        <!-- Logo -->
+        <div class="site-logo col-6">
+          <a href="{% url 'jobapp:home' %}">GoForWork</a>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="mx-auto site-navigation">
+          <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0"></ul>
+        </nav>
+
+        <!-- Right CTA Menu -->
+        <div class="right-cta-menu text-right d-flex align-items-center col-9">
+          <div class="ml-auto">
+            <div class="site-navigation fix">
+              <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
+
+                <!-- Common Links (available for all) -->
+                <li><a href="{% url 'jobapp:home' %}" class="nav-link">Home</a></li>
+                <li><a href="{% url 'jobapp:job-list' %}">Job Listing</a></li>
+                <li><a href="{% url 'jobapp:contact' %}">Contact Us</a></li>
+                <li><a href="{% url 'jobapp:about_us' %}">About Us</a></li>
+
+                {% if user.is_authenticated %}
+
+                  <!-- Authenticated User Links -->
+
+                  {% if user.role == 'employer' %}
+                    <!-- Employer Exclusive Links -->
+                    <li><a href="{% url 'jobapp:create-job' %}">
+                      Publish Job
+                    </a></li>
+                    <!-- Employer Dashboard -->
+                    <li><a href="{% url 'jobapp:dashboard' %}">Dashboard</a></li>
+                  {% else %}
+                    <!-- Employee Specific Links -->
+                    <li><a href="{% url 'jobapp:dashboard' %}">Dashboard</a></li>
+                  {% endif %}
+
+                  <!-- User Profile and Logout Dropdown -->
+                  <!-- User Profile and Logout Dropdown -->
+<li class="pr-3 has-children">
+  <a class="text-primary">
+    {{ request.user.first_name }} {{ request.user.last_name }}
+  </a>
+  <ul class="dropdown">
+    {% if user.role == 'employer' %}
+      <li><a href="{% url 'account:edit-profile-employer' request.user.id %}">Edit Profile</a></li>
+    {% else %}
+      <li><a href="{% url 'account:edit-profile' request.user.id %}">Edit Profile</a></li>
+    {% endif %}
+    <li><a href="{% url 'account:logout' %}">Logout</a></li>
+  </ul>
+</li>
+
+                {% else %}
+
+                  <!-- Links for Unauthenticated Users -->
+                  <li class="pr-3 has-children">
+                    <a>Register</a>
+                    <ul class="dropdown">
+                      <li><a href="{% url 'account:employer-registration' %}">Employer</a></li>
+                      <li><a href="{% url 'account:employee-registration' %}">Job Seeker</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="{% url 'account:login' %}" class="btn btn-primary border-width-2" style="padding:-1rem">
+                      <span class="mr-2 icon-lock_outline"></span>Log In
+                    </a>
+                  </li>
+
+                {% endif %}
+
+              </ul>
+            </div>
+          </div>
+
+          <!-- Mobile Menu Toggle -->
+          <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3">
+            <span class="icon-menu h3 m-0 p-0 mt-2"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
